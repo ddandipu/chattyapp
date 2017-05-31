@@ -4,17 +4,17 @@ import Message from './Message.jsx';
 class MessageList extends Component {
   render() {
     console.log("Rendering <MessageList/>");
-    const array = this.props.array.map(singlearray => {
+    const messages = this.props.messages.map((message, index) => {
       return <Message
-        key = {singlearray.id}
-        user= {singlearray.username}
-        content={singlearray.content} />
+        key = {index}
+        username =  {message.username}
+        content = {message.content} />
     });
 
 
     return (
-      <section className="array">
-        {array}
+      <section className="messages">
+      {messages}
       </section>
     );
   }
