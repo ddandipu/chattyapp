@@ -37,11 +37,12 @@ class App extends Component {
     this.state = {
       messages: messagedatabase.messages
     };
-  this.onNewPost = this. onNewPost.bind(this);
+  this.onNewPost = this.onNewPost.bind(this);
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
+    console.log("Connected to server");
+     this.socket = new WebSocket("ws://localhost:3001");
   }
 
   render() {
