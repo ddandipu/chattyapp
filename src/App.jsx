@@ -19,6 +19,16 @@ let messagedatabase =
   ]
 }
 
+function generateRandomString() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 6; i++ ) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+    return text;
+}
+
 class App extends Component {
 
 
@@ -38,12 +48,13 @@ class App extends Component {
     // more code here..
   }
 
-  onNewPost(content) {
-    const newMessage = {id: 4, username: "Dimas", content: content};
+
+  onNewPost(content, username) {
+    const newMessage = {id: generateRandomString(), content: content, username: username};
     const messages = this.state.messages.concat(newMessage)
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
-    this.setState({messages: messages})
+    this.setState({messages: messages })
   }
 
   render() {
