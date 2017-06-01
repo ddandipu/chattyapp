@@ -25,7 +25,7 @@ wss.on('connection', (ws) => {
   ws.on('message', function incoming(message) {
     // Broadcast to everyone else.
     wss.clients.forEach(function each(client) {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
+      if (client.readyState === WebSocket.OPEN) {
         let messageparsed = (JSON.parse(message));
         messageparsed.id = uuid.v1();
         let messagewithid = (JSON.stringify(messageparsed));

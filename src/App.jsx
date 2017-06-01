@@ -4,7 +4,7 @@ import ChatBar from './ChatBar.jsx';
 
 let messagedatabase =
 {
-  currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+  currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
   messages: []
 }
 
@@ -24,6 +24,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: {name: ""},
       messages: []
     };
   this.onNewPost = this.onNewPost.bind(this);
@@ -34,9 +35,10 @@ class App extends Component {
       this.socket = new WebSocket("ws://localhost:3001");
       this.socket.onmessage = (event) => {
         let messagearray = (JSON.parse(event.data));
-        console.log(messagearray);
+        console.log(messagearray.username);
+        let currentUser= messagearray.username;
         let messages = this.state.messages.concat(messagearray);
-        this.setState({messages: messages})
+        this.setState({currentUser: {name : currentUser}, messages: messages})
     }
   }
 
@@ -55,11 +57,10 @@ class App extends Component {
 
   render() {
     console.log("Rendering <App/>");
-    console.log(this.state);
     return (
       <div>
         <MessageList messages = {this.state.messages} />
-        <ChatBar name = {messagedatabase.currentUser.name} onPost= {this.onNewPost} />
+        <ChatBar name = {this.state.currentUser.name} onPost= {this.onNewPost} />
       </div>
     );
   }
