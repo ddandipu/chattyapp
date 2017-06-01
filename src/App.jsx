@@ -31,7 +31,13 @@ class App extends Component {
 
   componentDidMount() {
     console.log("Connected to server");
-     this.socket = new WebSocket("ws://localhost:3001");
+      this.socket = new WebSocket("ws://localhost:3001");
+      this.socket.onmessage = (event) => {
+        let messagearray = (JSON.parse(event.data));
+        console.log(messagearray);
+        let messages = this.state.messages.concat(messagearray);
+        this.setState({messages: messages})
+    }
   }
 
   render() {
@@ -40,12 +46,11 @@ class App extends Component {
 
 
   onNewPost(content, username) {
-    const newMessage = {id: generateRandomString(), content: content, username: username};
+    const newMessage = {username: username, content: content };
     const messages = this.state.messages.concat(newMessage)
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
-    console.log(this.socket);
-    this.socket.send("User " + newMessage.username + " said " + newMessage.content);
+    this.socket.send(JSON.stringify(newMessage));
   }
 
   render() {
