@@ -17,7 +17,8 @@ class App extends Component {
     this.state = {
       currentUser: {name: ""},
       messages: [],
-      notifications: ""
+      notifications: "",
+      usercount: ""
     };
   this.onNewPost = this.onNewPost.bind(this);
   }
@@ -30,13 +31,15 @@ class App extends Component {
         console.log(data);
         if (data.postNotification === undefined) {
           let currentUser= data.username;
-          let messages = this.state.messages.concat(data);
-          this.setState({currentUser: {name : currentUser}, messages: messages})
+          let usercount = data.usercount;
+          let messaging = this.state.messages.concat(data);
+          this.setState({currentUser: {name : currentUser}, messages: messaging, usercount: usercount })
       } else {
           let currentUser= data.newMessage.username;
-          let messages = this.state.messages.concat(data.newMessage);
+          let usercount = data.newMessage.usercount;
+          let messaging = this.state.messages.concat(data.newMessage);
           let notifications = data.postNotification.content;
-          this.setState({currentUser: {name : currentUser}, messages: messages, notifications: notifications})
+          this.setState({currentUser: {name : currentUser}, messages: messaging, notifications: notifications, usercount: usercount })
       }
     }
   }
@@ -72,7 +75,7 @@ class App extends Component {
     console.log("Rendering <App/>");
     return (
       <div>
-        <MessageList messages = {this.state.messages} notifications = {this.state.notifications}/>
+        <MessageList messages = {this.state.messages} notifications = {this.state.notifications} usercount = {this.state.usercount}/>
         <ChatBar name = {this.state.currentUser.name} onPost= {this.onNewPost} />
       </div>
     );

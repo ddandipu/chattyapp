@@ -99,3 +99,10 @@ body {
 .chatbar-message:empty:not(:focus):before{
     content:attr(data-text)
 }
+
+.active-users {
+  font-size: 25px;
+  position: fixed;
+  top: .5em;
+  right: 4em;
+}
