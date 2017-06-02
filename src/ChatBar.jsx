@@ -36,17 +36,18 @@ class ChatBar extends React.Component {
     this.setState({
       content: content,
       username: usernamecontent
+
     });
   }
 
   render() {
     console.log("Rendering <ChatBar />");
-    console.log(this.state.username);
-    console.log(this.props.name);
-    console.log(this.props.name + " has changed username to " + this.state.username);
+    // console.log(this.state.username);
+    // console.log(this.props.name);
+    // console.log(this.props.name + " has changed username to " + this.state.username);
     return (
         <footer className="chatbar">
-          <div className="chatbar-username" onBlur= {this.onNameUpdate} contentEditable suppressContentEditableWarning={ true } >{this.state.username}</div>
+          <div className="chatbar-username" onBlur= {this.onNameUpdate} contentEditable suppressContentEditableWarning={ true } >{this.props.name}</div>
           <div className="chatbar-message textarea" onBlur= {this.onContent} contentEditable suppressContentEditableWarning={ true } data-text="Enter message here">{this.state.content}</div>
           <button className="chatbar-button" onClick={ this.onPost } >MESSAGE</button>
         </footer>
