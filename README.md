@@ -19,9 +19,11 @@ Install the dependencies and start the server.
 
 ```
 npm install
-npm start
+npm start or node server.js
 open http://localhost:3000
 ```
+The webSocket server is under the folder named 'chatty-server'
+npm start or node server.js to start websocket server.
 
 ### Static Files
 
