@@ -17,7 +17,7 @@ class MessageList extends Component {
 
     return (
       <div>
-        <div className="active-users"> active users : {this.props.usercount} </div>
+        <div className="active-users"> Last msg sent to : {this.props.usercount} users </div>
         <section className="messages">
         {messages}
         </section>
