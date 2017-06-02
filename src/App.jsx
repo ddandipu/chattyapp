@@ -11,7 +11,7 @@ let messagedatabase =
 
 class App extends Component {
 
-
+//setting state for the app level
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,7 @@ class App extends Component {
     };
   this.onNewPost = this.onNewPost.bind(this);
   }
-
+//takes in data submitted from webSocket server and set the state set above with new parameters from server data
   componentDidMount() {
     console.log("Connected to server");
       this.socket = new WebSocket("ws://localhost:3001");
@@ -30,11 +30,13 @@ class App extends Component {
         let data = (JSON.parse(event.data));
         console.log(data);
         if (data.postNotification === undefined) {
+          //if no username change
           let currentUser= data.username;
           let usercount = data.usercount;
           let messaging = this.state.messages.concat(data);
           this.setState({currentUser: {name : currentUser}, messages: messaging, usercount: usercount })
       } else {
+        // if username changes
           let currentUser= data.newMessage.username;
           let usercount = data.newMessage.usercount;
           let messaging = this.state.messages.concat(data.newMessage);
@@ -44,22 +46,19 @@ class App extends Component {
     }
   }
 
-  render() {
-    // more code here..
-  }
-
-
+// this function is passed down to ChatBar, it takes in the local state from ChatBar and then
+// submits it to the webSocket server.
   onNewPost(content, username) {
     const newMessage = {type: "postMessage", username: username, content: content };
     console.log(username); //new username
     console.log(this.state.currentUser.name); //old username
     if (this.state.currentUser.name === username) {
-      //if true
+      //if no username change
       this.state.notifications = "";
       const messages = this.state.messages.concat(newMessage)
       this.socket.send(JSON.stringify(newMessage));
     } else {
-      // if name change
+      // if username change occurs
       this.state.notifications = "";
       let notification = (this.state.currentUser.name + " has changed username to " + username);
       let postNotification = {type: "postNotification", content: notification};
@@ -67,10 +66,9 @@ class App extends Component {
       console.log(newMessage);
       const messages = this.state.messages.concat(newMessage)
       this.socket.send(JSON.stringify({newMessage, postNotification}));
-      // this.socket.send(JSON.stringify(postNotification));
     }
   }
-
+// passes App state to the MessageList and ChatBar
   render() {
     console.log("Rendering <App/>");
     return (

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
+// sends App's state down to Message
 class MessageList extends Component {
   render() {
     console.log("Rendering <MessageList/>");
@@ -14,7 +15,7 @@ class MessageList extends Component {
         />
     });
 
-
+// builds the DOM, includes notifications and usercount
     return (
       <div>
         <div className="active-users"> Last msg sent to : {this.props.usercount} users </div>
