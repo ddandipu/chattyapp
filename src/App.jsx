@@ -28,7 +28,6 @@ class App extends Component {
       this.socket = new WebSocket("ws://localhost:3001");
       this.socket.onmessage = (event) => {
         let data = (JSON.parse(event.data));
-        console.log(data);
         if (data.postNotification === undefined) {
           //if no username change
           let currentUser= data.username;
@@ -50,8 +49,6 @@ class App extends Component {
 // submits it to the webSocket server.
   onNewPost(content, username) {
     const newMessage = {type: "postMessage", username: username, content: content };
-    console.log(username); //new username
-    console.log(this.state.currentUser.name); //old username
     if (this.state.currentUser.name === username) {
       //if no username change
       this.state.notifications = "";

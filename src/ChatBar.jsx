@@ -27,25 +27,26 @@ class ChatBar extends React.Component {
   }
   // this function is called here to send to server, it is called from the main App.jsx file
   onPost(event) {
-    let content = this.state.content;
-    let usernamecontent = this.state.username;
-    this.props.onPost(content, usernamecontent);
-    content = '';
-    this.setState({
-      content: content,
-      username: usernamecontent
-
-    });
+    if (event.keyCode === 13) {
+      let content = this.state.content;
+      let usernamecontent = this.state.username;
+      this.props.onPost(content, usernamecontent);
+      this.setState({
+        content: content,
+        username: usernamecontent
+      });
+      document.getElementsByClassName("chatbar-message")[0].innerText = '';
+      this.state.content = '';
+    }
   }
   // Chatbar input footer
   render() {
     console.log("Rendering <ChatBar />");
     return (
-        <footer className="chatbar">
-          <div className="chatbar-username" onBlur= {this.onNameUpdate} contentEditable suppressContentEditableWarning={ true } >{this.props.name}</div>
-          <div className="chatbar-message textarea" onBlur= {this.onContent} contentEditable suppressContentEditableWarning={ true } data-text="Enter message here">{this.state.content}</div>
-          <button className="chatbar-button" onClick={ this.onPost } >MESSAGE</button>
-        </footer>
+      <footer  className="chatbar">
+        <div className="chatbar-username" onInput= {this.onNameUpdate} contentEditable suppressContentEditableWarning={ true } ></div>
+        <div className="chatbar-message" onInput= {this.onContent} onKeyDown={this.onPost} contentEditable suppressContentEditableWarning={ true } data-text="Enter message here"></div>
+      </footer>
     );
   }
 }
