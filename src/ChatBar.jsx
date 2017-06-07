@@ -16,7 +16,7 @@ class ChatBar extends React.Component {
   // function to set local state when cursor leaves the message input div
   onContent(event) {
       this.setState({
-        content: event.target.innerText
+        content: event.target.value
       });
   }
   // function to set local state when cursor leaves the username input div
@@ -35,8 +35,8 @@ class ChatBar extends React.Component {
         content: content,
         username: usernamecontent
       });
-      document.getElementsByClassName("chatbar-message")[0].innerText = '';
-      this.state.content = '';
+      document.getElementsByClassName("chatbar-message")[0].value = '';
+      document.getElementsByClassName("chatbar-message")[0].select();
     }
   }
   // Chatbar input footer
@@ -44,8 +44,8 @@ class ChatBar extends React.Component {
     console.log("Rendering <ChatBar />");
     return (
       <footer  className="chatbar">
-        <div className="chatbar-username" onInput= {this.onNameUpdate} contentEditable suppressContentEditableWarning={ true } ></div>
-        <div className="chatbar-message" onInput= {this.onContent} onKeyDown={this.onPost} contentEditable suppressContentEditableWarning={ true } data-text="Enter message here"></div>
+        <div className="chatbar-username" onBlur= {this.onNameUpdate} contentEditable suppressContentEditableWarning={ true } >{this.state.username}</div>
+        <input className="chatbar-message" onInput= {this.onContent} onKeyDown={this.onPost} placeholder="Enter msg here" />
       </footer>
     );
   }
