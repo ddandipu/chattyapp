@@ -19,11 +19,19 @@ class ChatBar extends React.Component {
         content: event.target.value
       });
   }
-  // function to set local state when cursor leaves the username input div
+  // function to set local state when cursor leaves the username input div, also
+  // use the props onNameChange method to send name notifications to server
   onNameUpdate(event) {
-    this.setState({
-      username: event.target.innerText
-    });
+    if (event.target.innerText.length == 0) {
+      event.target.innerText = "Anonymous"
+    }
+    if (this.state.username !== event.target.innerText) {
+      let notification = ("// SYSTEM NOTIFICATION: " + this.state.username + " has changed username to " + event.target.innerText)
+      this.props.onNameChange(notification);
+      this.setState({
+        username: event.target.innerText
+      });
+    }
   }
   // this function is called here to send to server, it is called from the main App.jsx file
   onPost(event) {

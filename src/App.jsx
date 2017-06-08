@@ -21,6 +21,7 @@ class App extends Component {
       usercount: ""
     };
   this.onNewPost = this.onNewPost.bind(this);
+  this.onNameChange = this.onNameChange.bind(this);
   }
 //takes in data submitted from webSocket server and set the state set above with new parameters from server data
   componentDidMount() {
@@ -40,7 +41,7 @@ class App extends Component {
           let usercount = data.newMessage.usercount;
           let messaging = this.state.messages.concat(data.newMessage);
           let notifications = data.postNotification.content;
-          this.setState({currentUser: {name : currentUser}, messages: messaging, notifications: notifications, usercount: usercount })
+          this.setState({currentUser: {name : currentUser}, messages: messaging, usercount: usercount })
       }
     }
   }
@@ -49,21 +50,15 @@ class App extends Component {
 // submits it to the webSocket server.
   onNewPost(content, username) {
     const newMessage = {type: "postMessage", username: username, content: content };
-    if (this.state.currentUser.name === username) {
-      //if no username change
       this.state.notifications = "";
       const messages = this.state.messages.concat(newMessage)
       this.socket.send(JSON.stringify(newMessage));
-    } else {
-      // if username change occurs
-      this.state.notifications = "";
-      let notification = (this.state.currentUser.name + " has changed username to " + username);
-      let postNotification = {type: "postNotification", content: notification};
-      console.log(postNotification);
-      console.log(newMessage);
-      const messages = this.state.messages.concat(newMessage)
-      this.socket.send(JSON.stringify({newMessage, postNotification}));
-    }
+
+  }
+// another function passed to chatbar, this one submits notification to webSocket server
+  onNameChange (notification) {
+    let notificationObject = {type: "postNotification", content: notification};
+    this.socket.send(JSON.stringify(notificationObject));
   }
 // passes App state to the MessageList and ChatBar
   render() {
@@ -71,7 +66,7 @@ class App extends Component {
     return (
       <div>
         <MessageList messages = {this.state.messages} notifications = {this.state.notifications} usercount = {this.state.usercount}/>
-        <ChatBar name = {this.state.currentUser.name} onPost= {this.onNewPost} />
+        <ChatBar name = {this.state.currentUser.name} onPost= {this.onNewPost} onNameChange = {this.onNameChange} />
       </div>
     );
   }

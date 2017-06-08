@@ -22,7 +22,7 @@ class MessageList extends Component {
         <section className="messages">
         {messages}
         </section>
-        <div className="message system"> {this.props.notifications} </div>
+        <div className="message-system"> {this.props.notifications} </div>
       </div>
     );
   }
