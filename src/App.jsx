@@ -26,9 +26,11 @@ class App extends Component {
 //takes in data submitted from webSocket server and set the state set above with new parameters from server data
   componentDidMount() {
     console.log("Connected to server");
+
       this.socket = new WebSocket("ws://localhost:3001");
       this.socket.onmessage = (event) => {
         let data = (JSON.parse(event.data));
+        console.log(data);
         if (data.postNotification === undefined) {
           //if no username change
           let currentUser= data.username;

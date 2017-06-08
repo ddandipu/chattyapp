@@ -32,23 +32,20 @@ wss.on('connection', (ws) => {
             messageparsed.type = "incomingMessage";
             let messagewithid = (JSON.stringify(messageparsed));
             client.send(messagewithid);
-        } else {
-          // if username did change
-            messageparsed.id = uuid.v1();
-            messageparsed.newMessage.id = uuid.v1();
-            messageparsed.newMessage.type = "incomingMessage";
-            messageparsed.newMessage.usercount = wss.clients.size;
-            messageparsed.postNotification.id = uuid.v4();
-            messageparsed.postNotification.type = "incomingNotification";
-            let messagenotificationwithid = (JSON.stringify(messageparsed));
-            client.send(messagenotificationwithid);
-
         }
       }
     });
   });
 
+  // the code updates usercount for when a user closes his browser
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      let messagewithid = {usercount: wss.clients.size, id: uuid.v4()};
+      client.send(JSON.stringify(messagewithid));
+    }
+  }));
+
+
 });
 

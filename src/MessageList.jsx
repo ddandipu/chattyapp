@@ -18,7 +18,7 @@ class MessageList extends Component {
 // builds the DOM, includes notifications and usercount
     return (
       <div>
-        <div className="active-users"> Last msg sent to : {this.props.usercount} users </div>
+        <div className="active-users"> Active users : {this.props.usercount} </div>
         <section className="messages">
         {messages}
         </section>
